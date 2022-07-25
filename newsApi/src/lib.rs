@@ -1,8 +1,9 @@
-
+use std::error::Error;
+use thiserror::Error;
 use serde::Deserialize;
 
-#[derive(thiserror::Error)]
-enum NewsApiError{
+#[derive(thiserror::Error,Debug)]
+pub enum NewsApiError{
      #[error("Failed fectching articles")]
      RequestFailed,
      #[error("Failed to convert response to String")]
