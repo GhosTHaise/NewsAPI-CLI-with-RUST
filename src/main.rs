@@ -1,6 +1,7 @@
 use colour::{dark_green,yellow};
-use std::error::Error;
+use std::{error::Error};
 use newsApi::{get_articles,Articles};
+use dotenv::dotenv;
 
 fn render_articles(articles:&Articles)-> (){
     for i in &articles.articles {
@@ -10,8 +11,11 @@ fn render_articles(articles:&Articles)-> (){
 }
 
 fn main() -> Result<(),Box<dyn Error>> {
-    let url = "https://newsapi.org/v2/everything?q=tesla&sortBy=publishedAt&apiKey=16fbc4733a3d4a43b6da9a7a909bb1de";
-    let _articles = get_articles(url)?;
+    dotenv()?;
+    let api_key = std::env::var("API_KEY")?;
+    let url = "https://newsapi.org/v2/everything?q=tesla&sortBy=publishedAt&apiKey=";
+    let url = format!("{}{}",url,api_key);
+    let _articles = get_articles(&url)?;
     render_articles(&_articles);
     Ok(())
 }
