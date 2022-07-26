@@ -10,6 +10,7 @@ pub fn default() -> MadSkin {
 
     skin.bullet = StyledChar::from_fg_char(Yellow, '+');
     skin.set_headers_fg(Yellow);
+    
     skin.quote_mark = StyledChar::from_fg_char(Yellow, '|');
     skin.quote_mark.set_fg(Rgb{ 
         r: 215,
@@ -21,5 +22,11 @@ pub fn default() -> MadSkin {
         g: 0,
         b: 200,
     });
+    skin.italic.set_fg(Rgb{
+        r: 215,
+        g: 255,
+        b: 0,
+    });
+
     skin
 }
