@@ -10,7 +10,7 @@ fn render_articles(articles:&Articles)-> (){
     for i in &articles.articles {
         theme.print_text(&format!("`{}`",i.title));
         theme.print_text(&format!("> *{}*",i.url));
-        theme.print_text("...");
+        theme.print_text("---");
     }
 }
 
