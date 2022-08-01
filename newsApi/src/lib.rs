@@ -49,4 +49,7 @@ impl NewsApi {
             country: Country::Us
         }
     }
+    fn endpoint(&mut self,endpoint : Endpoint) -> () {
+        self.endpoint = endpoint;
+    }
 }
