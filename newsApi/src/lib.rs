@@ -29,3 +29,24 @@ pub fn get_articles(url : &str) -> Result<Articles,NewsApiError>{
 
     Ok(articles)
 }
+enum Endpoint{
+    TopHeadlines
+}
+enum Country{
+    Us
+}
+
+struct NewsApi{
+    api_key: String,
+    endpoint: Endpoint,
+    country : Country
+}
+impl NewsApi {
+    fn new(api_key:&str) -> NewsApi {
+        NewsApi { 
+            api_key: api_key.to_uppercase(), 
+            endpoint: Endpoint::TopHeadlines, 
+            country: Country::Us
+        }
+    }
+}

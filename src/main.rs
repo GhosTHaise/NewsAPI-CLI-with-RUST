@@ -6,7 +6,7 @@ use dotenv::dotenv;
 
 fn render_articles(articles:&Articles)-> (){
     let theme = theme::default();
-    theme.print_text("# top headlines\n\n");
+    theme.print_text("# top headlines\n\n"); 
     for i in &articles.articles {
         theme.print_text(&format!("`{}`",i.title));
         theme.print_text(&format!("> *{}*",i.url));
@@ -23,3 +23,5 @@ fn main() -> Result<(),Box<dyn Error>> {
     render_articles(&_articles);
     Ok(())
 }
+
+
