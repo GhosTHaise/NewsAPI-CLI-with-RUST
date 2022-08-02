@@ -49,6 +49,13 @@ impl ToString for Endpoint{
 pub enum Country{
     Us
 }
+impl ToString for Country{
+    fn to_string(&self) -> String {
+        match  self {
+            Self::Us => "us".to_string()
+        }
+    }
+}
 
 struct NewsApi{
     api_key: String,
@@ -77,7 +84,9 @@ impl NewsApi {
     fn prepare_url(&self) -> Result<String,NewsApiError> {
         let mut url = Url::parse(BASE_URL)?;
         url.path_segments_mut().unwrap().push(&self.endpoint.to_string());
-        todo!();
+        let country = format!("country={}",&self.country.to_string());
+        url.set_query(Some(&country));
+        Ok(url.to_string())
     }
 
 }
