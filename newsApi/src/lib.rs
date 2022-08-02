@@ -1,6 +1,9 @@
 use std::error::Error;
 use thiserror::Error;
 use serde::Deserialize;
+use url::Url;
+
+const BASE_URL : &str =  "https://newsapi.org/v2";
 
 #[derive(thiserror::Error,Debug)]
 pub enum NewsApiError{
@@ -9,7 +12,9 @@ pub enum NewsApiError{
      #[error("Failed to convert response to String")]
      FailedToresponseToString(std::io::Error),
      #[error("Article Parsing Failed")]
-     FailedParsingArticle(serde_json::Error)
+     FailedParsingArticle(serde_json::Error),
+     #[error("Url parsing failed")]
+     UrlParsing(#[from] url::ParseError)
 } 
 #[derive(Deserialize,Debug)]
 pub struct Articles {
@@ -29,10 +34,10 @@ pub fn get_articles(url : &str) -> Result<Articles,NewsApiError>{
 
     Ok(articles)
 }
-enum Endpoint{
+pub enum Endpoint{
     TopHeadlines
 }
-enum Country{
+pub enum Country{
     Us
 }
 
@@ -50,12 +55,20 @@ impl NewsApi {
         }
     }
 
-    fn endpoint(&mut self,endpoint : Endpoint) -> () {
+    fn endpoint(&mut self,endpoint : Endpoint) -> &mut NewsApi {
         self.endpoint = endpoint;
+        self
     }
 
-    fn country(&mut self,country:Country) -> (){
+    fn country(&mut self,country:Country) -> &mut NewsApi {
         self.country = country;
+        self
+    }
+
+    fn prepare_url(&self) -> Result<String,NewsApiError> {
+        let mut url = Url::parse(BASE_URL)?;
+
+        todo!();
     }
 
 }
