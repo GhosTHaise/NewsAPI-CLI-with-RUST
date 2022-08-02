@@ -37,6 +37,15 @@ pub fn get_articles(url : &str) -> Result<Articles,NewsApiError>{
 pub enum Endpoint{
     TopHeadlines
 }
+
+impl ToString for Endpoint{
+    fn to_string(&self) -> String {
+        match self {
+            Self::TopHeadlines => "top-headlines".to_string()
+        }
+    }
+}
+
 pub enum Country{
     Us
 }
@@ -67,7 +76,7 @@ impl NewsApi {
 
     fn prepare_url(&self) -> Result<String,NewsApiError> {
         let mut url = Url::parse(BASE_URL)?;
-
+        url.path_segments_mut().unwrap().push(&self.endpoint.to_string());
         todo!();
     }
 
