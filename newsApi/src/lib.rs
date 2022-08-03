@@ -88,5 +88,9 @@ impl NewsApi {
         url.set_query(Some(&country));
         Ok(url.to_string())
     }
+    fn fetch(&self) -> Result<NewsApiResponse,NewsApiError>{
+        
+        todo!()
+    }
 
 }
