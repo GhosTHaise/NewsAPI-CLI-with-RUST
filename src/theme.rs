@@ -25,7 +25,7 @@ pub fn default() -> MadSkin {
     skin.italic.set_fg(Rgb{
         r: 215,
         g: 255,
-        b: 0,
+        b:   0,
     });
 
     skin

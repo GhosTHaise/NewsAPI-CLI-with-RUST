@@ -32,8 +32,17 @@ impl NewsApiResponse {
 
 #[derive(Deserialize,Debug)]
 pub struct Article{
-    pub title : String,
-    pub url: String
+    title : String,
+    url: String
+}
+
+impl Article {
+    pub fn title(&self) -> &str {
+        &self.title
+    }
+    pub fn url(&self) -> &str {
+        &self.url
+    }
 }
 
 /* pub fn get_articles(url : &str) -> Result<Articles,NewsApiError>{
