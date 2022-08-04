@@ -1,4 +1,6 @@
+#[cfg(feature = "async")]
 use std::{error::Error, string};
+use reqwest::Method;
 use thiserror::Error;
 use serde::Deserialize;
 use url::Url;
@@ -16,7 +18,9 @@ pub enum NewsApiError{
      #[error("Url parsing failed")]
      UrlParsing(#[from] url::ParseError),
      #[error("Request failed: {0}")]
-     BadRequest(&'static str)
+     BadRequest(&'static str),
+     #[error("Async request failed")]
+     AsyncRequestFailed(#[from] reqwest::Error)
 } 
 #[derive(Deserialize,Debug)]
 pub struct NewsApiResponse {
@@ -115,6 +119,20 @@ impl NewsApi {
             _ => return Err(NewsApi::map_response_error(response.code))
         } 
         //todo!() 
+    }
+    #[cfg(feature = "async")]
+    pub async fn fetch_async(&self) -> Result<NewsApiResponse,NewsApiError>{
+        let url = self.prepare_url()?;
+        let client = reqwest::Client::new();
+        let request = client
+        .request(Method::GET, url)
+        .header("Authorization", &self.api_key)
+        .build()
+        .map_err(|e| NewsApiError::AsyncRequestFailed(e))?;
+
+        let response = client.execute(request).await?.json().await.map_err(|e| NewsApiError::AsyncRequestFailed(e))?;
+
+        todo!()
     }
     fn map_response_error(code : Option<String>) -> NewsApiError {
         if let Some(code ) = code{
