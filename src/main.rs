@@ -17,13 +17,13 @@ fn render_articles(articles:&Vec<Article>)-> (){
 fn main() -> Result<(),Box<dyn Error>> {
     dotenv()?;
     let api_key = std::env::var("API_KEY")?;
-    let mut newsApi = NewsApi::new(&api_key);
-    newsApi.endpoint(Endpoint::TopHeadlines).country(Country::Us);
-    let newsApi_reponse  = newsApi.fetch()?;
+    let mut news_api = NewsApi::new(&api_key);
+    news_api.endpoint(Endpoint::TopHeadlines).country(Country::Us);
+    let news_api_reponse  = news_api.fetch()?;
     /* let url = "https://newsapi.org/v2/everything?q=tesla&sortBy=publishedAt&apiKey=";
     let url = format!("{}{}",url,api_key);
     let _articles = get_articles(&url)?; */
-    render_articles(&newsApi_reponse.articles());
+    render_articles(&news_api_reponse.articles());
     Ok(())
 }
 
