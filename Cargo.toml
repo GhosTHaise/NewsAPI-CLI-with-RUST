@@ -12,4 +12,4 @@ authors=["GhosT"]
 crossterm = "0.20.0"
 termimad = "0.14.2"
 dotenv= "0.15.0"
-newsApi = {path="./newsApi"}
+newsApi = {path="./newsApi",features = ["async"]}
