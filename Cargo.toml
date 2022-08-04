@@ -13,3 +13,4 @@ crossterm = "0.20.0"
 termimad = "0.14.2"
 dotenv= "0.15.0"
 newsApi = {path="./newsApi",features = ["async"]}
+tokio = {version = "1.11.0",features = ["full"]}
