@@ -147,6 +147,8 @@ impl NewsApi {
                 "apiKeyDisabled" => NewsApiError::BadRequest("Your API key has been disabled."),
                 "apiKeyExhausted" => NewsApiError::BadRequest("Your API key has no more requests available."),
                 "apiKeyInvalid" => NewsApiError::BadRequest("Your API key hasn't been entered correctly. Double check it and try again."),
+                "parametersMissing" => NewsApiError::BadRequest("Required parameters are missnig from the request."),
+                "parameterInvalid" => NewsApiError::BadRequest("You've included a parameter in your request which is currently not supported"),
                 _ => NewsApiError::BadRequest("Unknown error")
             }
         }else{
