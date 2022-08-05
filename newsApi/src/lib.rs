@@ -131,7 +131,8 @@ impl NewsApi {
 
         let response:NewsApiResponse = client
         .execute(request)
-        .await?.json()
+        .await?
+        .json()
         .await
         .map_err(|e| NewsApiError::AsyncRequestFailed(e))?;
 

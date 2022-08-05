@@ -20,11 +20,13 @@ async fn main() -> Result<(),Box<dyn Error>> {
     let api_key = std::env::var("API_KEY")?;
     let mut news_api = NewsApi::new(&api_key);
     news_api.endpoint(Endpoint::TopHeadlines).country(Country::Us);
+    //let news_api_reponse  = news_api.fetch_async().await?;
     let news_api_reponse  = news_api.fetch_async().await?;
     /* let url = "https://newsapi.org/v2/everything?q=tesla&sortBy=publishedAt&apiKey=";
     let url = format!("{}{}",url,api_key);
     let _articles = get_articles(&url)?; */
-    render_articles(&news_api_reponse.articles());
+    dbg!(&news_api_reponse);
+    /* render_articles(&news_api_reponse.articles()); */
     Ok(())
 }
 
