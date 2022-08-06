@@ -122,12 +122,16 @@ impl NewsApi {
     #[cfg(feature = "async")]
     pub async fn fetch_async(&self) -> Result<NewsApiResponse,NewsApiError>{
         let url = self.prepare_url()?;
+        /* dbg!(&url);  */
         let client = reqwest::Client::new();
         let request = client
-        .request(Method::GET, url)
+        .request(Method::GET,url)
         .header("Authorization", &self.api_key)
         .build()
         .map_err(|e| NewsApiError::AsyncRequestFailed(e))?;
+        
+        let testRequest = client.get("https://newsapi.org/v2/everything?q=keyword&apiKey=16fbc4733a3d4a43b6da9a7a909bb1de").send().await?;
+        dbg!(testRequest);
 
         let response:NewsApiResponse = client
         .execute(request)

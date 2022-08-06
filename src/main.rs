@@ -25,8 +25,8 @@ async fn main() -> Result<(),Box<dyn Error>> {
     /* let url = "https://newsapi.org/v2/everything?q=tesla&sortBy=publishedAt&apiKey=";
     let url = format!("{}{}",url,api_key);
     let _articles = get_articles(&url)?; */
-    dbg!(&news_api_reponse);
-    /* render_articles(&news_api_reponse.articles()); */
+    /* dbg!(&news_api_reponse); */
+    render_articles(&news_api_reponse.articles()); 
     Ok(())
 }
 
