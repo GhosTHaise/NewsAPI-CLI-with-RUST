@@ -1,6 +1,6 @@
 #[cfg(feature = "async")]
 use reqwest::Method;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use url::Url;
 
 const BASE_URL : &str =  "https://newsapi.org/v2";
@@ -33,7 +33,7 @@ impl NewsApiResponse {
     }
 }
 
-#[derive(Deserialize,Debug)]
+#[derive(Serialize,Deserialize,Debug)]
 pub struct Article{
     title : String,
     url: String
@@ -121,17 +121,27 @@ impl NewsApi {
     }
     #[cfg(feature = "async")]
     pub async fn fetch_async(&self) -> Result<NewsApiResponse,NewsApiError>{
+        use reqwest::header::{AUTHORIZATION, CONTENT_TYPE, ACCEPT};
+
         let url = self.prepare_url()?;
         /* dbg!(&url);  */
         let client = reqwest::Client::new();
         let request = client
-        .request(Method::GET,url)
-        .header("Authorization", &self.api_key)
+        .request(Method::GET,"https://newsapi.org/v2/everything?q=bitcoin&apiKey=16fbc4733a3d4a43b6da9a7a909bb1de")
+        .header(AUTHORIZATION, &self.api_key)
+        .header(CONTENT_TYPE, "application/json")
+        .header(ACCEPT, "application/json")
         .build()
         .map_err(|e| NewsApiError::AsyncRequestFailed(e))?;
         
-        let testRequest = client.get("https://newsapi.org/v2/everything?q=keyword&apiKey=16fbc4733a3d4a43b6da9a7a909bb1de").send().await?;
-        dbg!(testRequest);
+        let test_request = reqwest::get("https://newsapi.org/v2/everything?q=bitcoin&apiKey=16fbc4733a3d4a43b6da9a7a909bb1de")
+        .await
+        // each response is wrapped in a `Result` type
+        // we'll unwrap here for simplicity
+        .unwrap()
+        .text()
+        .await;
+    println!("{:?}", test_request);
 
         let response:NewsApiResponse = client
         .execute(request)
@@ -139,7 +149,7 @@ impl NewsApi {
         .json()
         .await
         .map_err(|e| NewsApiError::AsyncRequestFailed(e))?;
-
+        println!("success {:?}",&response);
         match response.status.as_str() {
             "ok" => return Ok(response),
             _ => return Err(NewsApi::map_response_error(response.code))
